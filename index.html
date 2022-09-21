@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Tienda HardWare</title>
+</head>
+<body>
+    <header class="header">
+    <div class="categorias">
+        <h2>Categorias:</h2>
+        <button id="placas" class="boton-filtro">Placas de video</button>
+        <button id="procesadores" class="boton-filtro">Procesadores</button>
+    </div>
+    <div class="marcas">
+        <h2>Marcas:</h2>
+        <button id="intel" class="boton-filtro">Intel</button>
+        <button id="amd" class="boton-filtro">AMD</button>
+        <button id="geforce" class="boton-filtro">GeForce</button>
+    </div>
+    <br>
+    <button id="borrarFiltro" class="boton-filtro">Borrar filtros</button>
+    </header>
+
+    <main class="main">
+        <section class="productos">
+        <h1>Productos</h1>
+        <div class="contenedor-productos" id="contenedorProductos"></div>
+        </section>
+        <section class="carrito">
+        <h2>Carrito de compras</h2>
+        <div id="carritoDeCompra"></div>
+        </section>
+    </main>
+<script src="./app.js"></script>
+</body>
+</html>
