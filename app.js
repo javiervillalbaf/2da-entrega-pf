@@ -58,7 +58,7 @@ const producto5 = new Productos(
 // ARRAY DE STOCK
 const stockProductos = [producto1, producto2, producto3, producto4, producto5];
 // ARRAY CARRITO, SI EXISTE CARRITO LO TRAIGO DE LOCAL STORAGE, SI NO EXISTE SE INICIA VACIO
-const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 // FUNCIONES
 // FILTRO CATEGORIA
@@ -189,19 +189,19 @@ const btnBorrar = document.querySelector("#borrarFiltro");
 btnBorrar.addEventListener("click", () => {
   contenedorProductos.innerHTML = "";
   funcionAgregarStock();
-  agregarCarrito();
 });
 
-// FUNCION AGREGAR CARRITO
+// FUNCION BOTON AGREGAR CARRITO
 function agregarCarrito() {
   stockProductos.forEach((el) => {
     document.querySelector(`#card${el.id}`).addEventListener("click", () => {
+      console.log("click");
       agregarProducto(el);
     });
   });
 }
 
-// FUNCION AGREGAR CARRITO CUANDO UN PRODUCTO FUE FILTRADO
+// FUNCION BOTON AGREGAR CARRITO CUANDO UN PRODUCTO FUE FILTRADO
 function agregarCarritoFiltrado(filtro) {
   filtro.forEach((el) => {
     document.querySelector(`#card${el.id}`).addEventListener("click", () => {
@@ -211,23 +211,26 @@ function agregarCarritoFiltrado(filtro) {
 }
 
 // FUNCION QUE SUMA LOS PRECIOS DEL CARRITO
+let totalCarrito;
 function preciosCarrito() {
   totalCarrito = carrito.reduce((acc, el) => {
     return acc + el.precio * el.cantidad;
   }, 0);
 }
+preciosCarrito();
 
 // FUNCION QUE AGREGA LOS PRODUCTOS Y SUMA LA CANTIDAD EN EL CARRITO
-let totalCarrito;
+
 function agregarProducto(el) {
-  let existe = carrito.some((producto) => producto.id == el.id);
+  let existe = carrito.some((producto) => producto.id === el.id);
   if (existe === false) {
     carrito.push(el);
     el.cantidad = 1;
   } else {
-    carrito.find((producto) => producto.id == el.id);
-    el.cantidad++;
+    let prodFind = carrito.find((producto) => producto.id === el.id);
+    prodFind.cantidad++;
   }
+  console.log(carrito);
   preciosCarrito();
   agregarCarritoDom(el);
   mostrarTotal(totalCarrito);
@@ -250,7 +253,7 @@ function agregarCarritoDom(el) {
     carritoDeCompra.appendChild(div);
   });
   localStorage.setItem("carrito", JSON.stringify(carrito));
-  console.log(localStorage.getItem("carrito", JSON.stringify(carrito)));
+  // console.log(localStorage.getItem("carrito", JSON.stringify(carrito)));
   borrarProducto();
 }
 agregarCarritoDom();
@@ -261,8 +264,8 @@ function mostrarTotal(total) {
   h2Total.innerHTML = `<span style="color: black;">Total:</span> $${total}`;
   h2Total.classList.add("total");
   carritoDeCompra.appendChild(h2Total);
-  console.log(h2Total);
 }
+mostrarTotal(totalCarrito);
 
 // FUNCION BORRAR PRODUCTO DEL CARRITO
 function borrarProducto() {
