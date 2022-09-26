@@ -230,6 +230,7 @@ function agregarProducto(el) {
     let prodFind = carrito.find((producto) => producto.id === el.id);
     prodFind.cantidad++;
   }
+
   console.log(carrito);
   preciosCarrito();
   agregarCarritoDom(el);
@@ -241,15 +242,16 @@ const carritoDeCompra = document.querySelector("#carritoDeCompra");
 function agregarCarritoDom(el) {
   carritoDeCompra.innerHTML = "";
   carrito.forEach((el) => {
+    const { img, cantidad, nombre, precio, id } = el;
     const div = document.createElement("div");
     div.classList.add("card2");
-    div.innerHTML = `<img src="./assets/${el.img}" alt="" class="card-img2">
+    div.innerHTML = `<img src="./assets/${img}" alt="" class="card-img2">
             <div class="card-div">
-            <h3 class="card-cantidad">Cantidad: ${el.cantidad}</h3>
-            <h2 class="card-nombre2">${el.nombre}</h2>
-            <h2 class="card-precio2">$${el.precio}</h2>
+            <h3 class="card-cantidad">Cantidad: ${cantidad}</h3>
+            <h2 class="card-nombre2">${nombre}</h2>
+            <h2 class="card-precio2">$${precio}</h2>
             </div>
-            <button class="card-button2" id="borrar${el.id}">Borrar</button>`;
+            <button class="card-button2" id="borrar${id}">Borrar</button>`;
     carritoDeCompra.appendChild(div);
   });
   localStorage.setItem("carrito", JSON.stringify(carrito));
@@ -264,18 +266,34 @@ function mostrarTotal(total) {
   h2Total.innerHTML = `<span style="color: black;">Total:</span> $${total}`;
   h2Total.classList.add("total");
   carritoDeCompra.appendChild(h2Total);
+  localStorage.setItem("precioTotal", totalCarrito);
 }
 mostrarTotal(totalCarrito);
 
 // FUNCION BORRAR PRODUCTO DEL CARRITO
 function borrarProducto() {
   carrito.forEach((el) => {
-    document.querySelector(`#borrar${el.id}`).addEventListener("click", () => {
-      let indice = carrito.findIndex((e) => e.id === el.id);
+    const { id } = el;
+    document.querySelector(`#borrar${id}`).addEventListener("click", () => {
+      let indice = carrito.findIndex((e) => e.id === id);
       carrito.splice(indice, 1);
       preciosCarrito();
       agregarCarritoDom();
       mostrarTotal(totalCarrito);
+      // Swal.fire("Any fool can use a computer");
+      Toastify({
+        text: "producto borrado",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "left", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
     });
   });
 }
