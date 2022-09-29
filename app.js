@@ -197,6 +197,13 @@ function agregarCarrito() {
     document.querySelector(`#card${el.id}`).addEventListener("click", () => {
       console.log("click");
       agregarProducto(el);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Producto agregado al carrito",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     });
   });
 }
@@ -206,6 +213,13 @@ function agregarCarritoFiltrado(filtro) {
   filtro.forEach((el) => {
     document.querySelector(`#card${el.id}`).addEventListener("click", () => {
       agregarProducto(el);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Producto agregado al carrito",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     });
   });
 }
