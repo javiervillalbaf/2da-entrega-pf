@@ -1,0 +1,42 @@
+[
+    {
+       "id":1,
+       "nombre":"I3 10100F",
+       "categoria":"Procesador",
+       "marca":"Intel",
+       "precio":22400,
+       "img":"i3-10100F.jpg"
+    },
+    {
+       "id":2,
+       "nombre":"Ryzen 5 1600",
+       "categoria":"Procesador",
+       "marca":"AMD",
+       "precio":30000,
+       "img":"r5-1600.jpg"
+    },
+    {
+       "id":3,
+       "nombre":"GTX 1660 TI",
+       "categoria":"Placa de video",
+       "marca":"Geforce",
+       "precio":80000,
+       "img":"gtx-1660ti.jpg"
+    },
+    {
+       "id":4,
+       "nombre":"RTX 2060",
+       "categoria":"Placa de video",
+       "marca":"Geforce",
+       "precio":100000,
+       "img":"rtx-2060-12gb.jpg"
+    },
+    {
+       "id":5,
+       "nombre":"RX 5600",
+       "categoria":"Placa de video",
+       "marca":"AMD",
+       "precio":90000,
+       "img":"rx-5600.jpg"
+    }
+]

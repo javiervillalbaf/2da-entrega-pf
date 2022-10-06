@@ -1,71 +1,54 @@
-// STOCK DE PRODUCTOS
-class Productos {
-  constructor(id, nombre, categoria, marca, precio, img) {
-    this.id = id;
-    this.nombre = nombre;
-    this.categoria = categoria.toLowerCase();
-    this.marca = marca.toLowerCase();
-    this.precio = precio;
-    this.img = img;
-  }
-}
-
-const producto1 = new Productos(
-  1,
-  "I3 10100F",
-  "Procesador",
-  "Intel",
-  22400,
-  "i3-10100F.jpg"
-);
-
-const producto2 = new Productos(
-  2,
-  "Ryzen 5 1600",
-  "Procesador",
-  "AMD",
-  30000,
-  "r5-1600.jpg"
-);
-
-const producto3 = new Productos(
-  3,
-  "GTX 1660 TI",
-  "Placa de video",
-  "Geforce",
-  80000,
-  "gtx-1660ti.jpg"
-);
-
-const producto4 = new Productos(
-  4,
-  "RTX 2060",
-  "Placa de video",
-  "Geforce",
-  100000,
-  "rtx-2060-12gb.jpg"
-);
-
-const producto5 = new Productos(
-  5,
-  "RX 5600",
-  "Placa de video",
-  "AMD",
-  90000,
-  "rx-5600.jpg"
-);
-
 // ARRAY DE STOCK
-const stockProductos = [producto1, producto2, producto3, producto4, producto5];
+// Comentado ya que uso este array trayendolo del JSON
+// const stockProductos = [
+//   {
+//     id: 1,
+//     nombre: "I3 10100F",
+//     categoria: "Procesador",
+//     marca: "Intel",
+//     precio: 22400,
+//     img: "i3-10100F.jpg",
+//   },
+//   {
+//     id: 2,
+//     nombre: "Ryzen 5 1600",
+//     categoria: "Procesador",
+//     marca: "AMD",
+//     precio: 30000,
+//     img: "r5-1600.jpg",
+//   },
+//   {
+//     id: 3,
+//     nombre: "GTX 1660 TI",
+//     categoria: "Placa de video",
+//     marca: "Geforce",
+//     precio: 80000,
+//     img: "gtx-1660ti.jpg",
+//   },
+//   {
+//     id: 4,
+//     nombre: "RTX 2060",
+//     categoria: "Placa de video",
+//     marca: "Geforce",
+//     precio: 100000,
+//     img: "rtx-2060-12gb.jpg",
+//   },
+//   {
+//     id: 5,
+//     nombre: "RX 5600",
+//     categoria: "Placa de video",
+//     marca: "AMD",
+//     precio: 90000,
+//     img: "rx-5600.jpg",
+//   },
+// ];
+let stockProductos = [];
+
 // ARRAY CARRITO, SI EXISTE CARRITO LO TRAIGO DE LOCAL STORAGE, SI NO EXISTE SE INICIA VACIO
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 // FUNCIONES
 // FILTRO CATEGORIA
-function filtroCategoria(arr, filtro) {
-  const filtrado = arr.filter((el) => el.categoria == filtro.toLowerCase());
-  return filtrado;
-}
 
 // FILTRO MARCA
 function filtroMarca(arr, filtro) {
@@ -75,7 +58,7 @@ function filtroMarca(arr, filtro) {
 
 // AGREGAR PRODUCTOS AL DOM
 const contenedorProductos = document.querySelector("#contenedorProductos");
-function funcionAgregarStock() {
+function funcionAgregarStock(stockProductos) {
   stockProductos.forEach((el) => {
     const div = document.createElement("div");
     div.classList.add("card");
@@ -85,37 +68,35 @@ function funcionAgregarStock() {
         <button class="card-button" id="card${el.id}">Agregar al carrito</button>`;
     contenedorProductos.append(div);
   });
-  agregarCarrito();
 }
-
-funcionAgregarStock();
 
 // FUNCION FILTRAR POR CATEGORIAS
 const btnProcesadores = document.querySelector("#procesadores");
 const btnPlacas = document.querySelector("#placas");
 
 // CATEGORIA PROCESADORES
-btnProcesadores.addEventListener("click", () => {
-  contenedorProductos.innerHTML = "";
-  let filtro;
-  filtro = filtroCategoria(stockProductos, "procesador");
-  filtro.forEach((el) => {
-    const div = document.createElement("div");
-    div.classList.add("card");
-    div.innerHTML = `<img src="./assets/${el.img}" alt="" class="card-img">
-      <h2 class="card-nombre">${el.nombre}</h2>
-      <h2 class="card-precio">$${el.precio}</h2>
-      <button class="card-button" id="card${el.id}">Agregar al carrito</button>`;
-    contenedorProductos.append(div);
-  });
-  agregarCarritoFiltrado(filtro);
-});
+// btnProcesadores.addEventListener("click", () => {
+//   contenedorProductos.innerHTML = "";
+//   let filtro;
+//   filtro = filtroCategoria(stockProductos, "procesador");
+//   filtro.forEach((el) => {
+//     const div = document.createElement("div");
+//     div.classList.add("card");
+//     div.innerHTML = `<img src="./assets/${el.img}" alt="" class="card-img">
+//       <h2 class="card-nombre">${el.nombre}</h2>
+//       <h2 class="card-precio">$${el.precio}</h2>
+//       <button class="card-button" id="card${el.id}">Agregar al carrito</button>`;
+//     contenedorProductos.append(div);
+//   });
+//   agregarCarritoFiltrado(filtro);
+// });
 
 // CATEGORIA PLACAS DE VIDEO
 btnPlacas.addEventListener("click", () => {
   let filtro;
   contenedorProductos.innerHTML = ``;
   filtro = filtroCategoria(stockProductos, "Placa de video");
+  console.log(filtro);
   filtro.forEach((el) => {
     const div = document.createElement("div");
     div.classList.add("card");
@@ -125,6 +106,7 @@ btnPlacas.addEventListener("click", () => {
       <button class="card-button" id="card${el.id}">Agregar al carrito</button>`;
     contenedorProductos.append(div);
   });
+
   agregarCarritoFiltrado(filtro);
 });
 
@@ -192,10 +174,9 @@ btnBorrar.addEventListener("click", () => {
 });
 
 // FUNCION BOTON AGREGAR CARRITO
-function agregarCarrito() {
+function agregarCarrito(stockProductos) {
   stockProductos.forEach((el) => {
     document.querySelector(`#card${el.id}`).addEventListener("click", () => {
-      console.log("click");
       agregarProducto(el);
       Swal.fire({
         position: "center",
@@ -310,4 +291,41 @@ function borrarProducto() {
       }).showToast();
     });
   });
+}
+
+// FETCH JSON
+fetch("./data.json")
+  .then((res) => res.json())
+  .then((data) => {
+    stockProductos.push(data);
+    funcionAgregarStock(data);
+    agregarCarrito(data);
+    btnProcesadores.addEventListener("click", () => {
+      contenedorProductos.innerHTML = "";
+      let filtro;
+      filtro = filtroCategoria(data, "procesador");
+      console.log(filtro);
+      filtro.forEach((el) => {
+        const div = document.createElement("div");
+        div.classList.add("card");
+        div.innerHTML = `<img src="./assets/${el.img}" alt="" class="card-img">
+          <h2 class="card-nombre">${el.nombre}</h2>
+          <h2 class="card-precio">$${el.precio}</h2>
+          <button class="card-button" id="card${el.id}">Agregar al carrito</button>`;
+        contenedorProductos.append(div);
+      });
+      agregarCarritoFiltrado(filtro);
+    });
+  });
+
+console.log(stockProductos);
+
+stockProductos.forEach(() => {
+  console.log("123");
+});
+
+function filtroCategoria(arr, filtro) {
+  const filtrado = arr.filter((el) => el.categoria == filtro.toLowerCase());
+  console.log(filtrado);
+  return filtrado;
 }
